@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Jobs\FiltrarRegistroValidandoImagenesJob;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +15,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function () {  
     return view('welcome');
+    // Logger::dispatch();
+    // Logger::dispatchAfterResponse();
+    // Logger::dispatch()->onConnection("database");
+    // Logger::dispatch()->onQueue("secondary"); // puse el job en la cola "secondary"
+});
+
+Route::get('/{id_registro}', function ($id_registro) {
+    // $registro = Entrada::where('id', $id_registro)
+    // ->select('id', 'idprotocolo', 'imagen1', 'imagen2', 'imagen3', 'imagen4')
+    // ->first();
+    
+    // FiltrarRegistroValidandoImagenesJob::dispatch($registro);
+    
+    FiltrarRegistroValidandoImagenesJob::dispatchSync();
+    return $id_registro;
 });

@@ -3,11 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Laravel\Sanctum\HasApiTokens;
-use Tymon\JWTAuth\Contracts\JWTSubject;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -49,7 +50,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getJWTIdentifier()
     {
-        // Devuelve la clave primaria del modelo (metodo definido en vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php)
+        // Devuelve la clave primaria del modelo (getKey() es un metodo definido en vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php)
         return $this->getKey();  
     }
 
@@ -57,6 +58,10 @@ class User extends Authenticatable implements JWTSubject
     {
         // en este array podemos anadir informacion adicional que se va a anadir al token cuando sea generado 
         // cada vez que se genere un token con la informacion del usuario, si queremos anadir mas informacion, lo podemos hacer en este array 
-        return [];  
+        return [
+            'name' => $this->name,
+            'email' => $this->email,
+            'roleId' => $this->roleId
+        ];  
     }
 }
