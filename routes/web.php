@@ -29,7 +29,9 @@ Route::get('/{id_registro}', function ($id_registro) {
     // ->first();
     
     // FiltrarRegistroValidandoImagenesJob::dispatch($registro);
-    
     FiltrarRegistroValidandoImagenesJob::dispatchSync();
-    return $id_registro;
+
+    return response()->json([
+        'status' => 'success',
+    ], 200);
 });
